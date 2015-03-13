@@ -67,7 +67,7 @@ public class MonProjet {
 	private static List<Base> clean(List<Base> listB, List<String> listE) {
 		boolean contient = false;
 		List<Base> tmp = new ArrayList<Base>(listB);
-		for (Base b : tmp) {
+		for (Base b : listB) {
 			for (String s : listE) {
 				if (b.getEntreprises().contains(s)) {
 					contient = true;
@@ -76,6 +76,7 @@ public class MonProjet {
 			}
 			if (!contient)
 				tmp.remove(b);
+			contient = false;
 		}
 		return tmp;
 	}
@@ -137,163 +138,78 @@ public class MonProjet {
 	
 	public static void recursive2(List<Base> listB, List<String> listE,
 			MyCollection mCollection) {
-		// si ma liste entreprise est vide
-		// j'ai trouvé un cas validant
+	    	// si ma liste minimum a un cout inférieur a ma liste courante je shunt l'execution
 	    	if (myMinCollection!=null && myMinCollection.getCoutMin()<mCollection.getCoutMin())
 	    	    return;
+		// si ma liste entreprise est vide => j'ai trouvé un cas validant
+		// je l'ajoute dans ma liste de collection
 		if (listE.isEmpty()) {
-			// je l'ajoute dans ma liste de collection		    
+		    	// si ma collection est null je l'initialise
+		    	// sinon je test le cout pour mettre a jour ou non la collectionMin
 		    	if ( (myMinCollection==null) )
 		    	    myMinCollection= new MyCollection(mCollection);
-		    	else { 
-			    int minActual = myMinCollection.getCoutMin();
+		    	else {
+			    int minActual = (myMinCollection.getCoutMin()==0)?Integer.MAX_VALUE:myMinCollection.getCoutMin();
 			    int newValue = mCollection.getCoutMin();
 		    	    if (minActual>newValue){
 		    		myMinCollection= new MyCollection(mCollection);
-			    	Util.out(mCollection, listE, Util.ALGO_RECURS2);
 		    	    }
 		    	}
 			
 		} else {
 			String entreprise = listE.get(0);
-			for (Base base : listB) {
-				// Si ma collection a déjà cette base de maniere indirect
-				if (mCollection.isIn(entreprise)) {
-					recursive2(listB, listE.subList(1, listE.size()), mCollection);
-//					mCollection.remove(base);
-				} else {
-        				// Si l'entreprise est dans la liste de ma base courante
-        				if (base.getEntreprises().contains(entreprise)) {
-        					// j'ajoute la base dans ma collection
-        					mCollection.add(base);
-        					// et je lance le cas récursif sur l'entreprise suivante
-        					recursive2(listB, listE.subList(1, listE.size()),
-        							mCollection);
-        					mCollection.remove(base);
-        				}
-				}
-
-			}
+			// Si ma collectionMin a déjà cette entreprise de maniere indirect
+			if (mCollection.isIn(entreprise))
+			    	// Je lance mon cas recursif sans prendre en compte cette entreprise
+			    	recursive2(listB, listE.subList(1, listE.size()), mCollection);
+			else 	
+			    	// Je parcours toutes mes bases
+        			for (Base base : listB) {
+                				// Si l'entreprise est dans la base
+                				if (base.getEntreprises().contains(entreprise)) {
+                					// j'ajoute la base dans ma collectionMin
+                					mCollection.add(base);
+                					// et je lance le cas récursif sur l'entreprise suivante
+                					recursive2(listB, listE.subList(1, listE.size()),mCollection);
+                					// a la fin du traitement je retire l'élément
+                					mCollection.remove(base);
+                				}
+        			}
 		}
 
 	}
 
-	// private static void complexAlgo(List<Base> listB, List<String> listE) {
-	//
-	// List<Base> bases = new ArrayList<Base>(listB);//clean(listB, listE);
-	// Base[][] collection = new Base[listE.size()][bases.size()];
-	//
-	//
-	// /**
-	// * j'initialise la premiere ligne de ma matrice en indiquant le cout
-	// * d'ajout du premier objet en fonction du cout de la base la contenant
-	// *
-	// */
-	//
-	// for ( int j=0; j<bases.size(); j++ ) {
-	// if ( bases.get(j).getEntreprises().contains(listE.get(0)) ) {
-	// collection[0][j] = bases.get(j);
-	// } else {
-	// collection[0][j] = new Base();
-	// }
-	// }
-	//
-	// /**
-	// * Pour toute les bases suivantes si elles contiennent la nouvelle
-	// entreprise
-	// * alors j'additionne les valeurs de la base avec le résultat le moins
-	// couteux
-	// * de la recherche précédente
-	// */
-	//
-	// for ( int i=1; i<listE.size(); i++ ) {
-	// for ( int j=0; j<bases.size(); j++ ) {
-	// if ( bases.get(j).getEntreprises().contains(listE.get(i)) ) {
-	// Base minBase = Util.min(collection[i-1]);
-	// if (!minBase.getEntreprises().contains(listE.get(i))) {
-	// // int newcout = ( bases.get(j).getCout() + minBase.getCout() );
-	// int newcout = ( bases.get(j).getCout() );
-	// ArrayList<String> newList = new
-	// ArrayList<String>(bases.get(j).getEntreprises());
-	// // newList.addAll(minBase.getEntreprises());
-	// collection[i][j] = new Base(newcout, newList);
-	// } else {
-	// collection[i][j] = collection[i-1][j];
-	// }
-	// } else {
-	// collection[i][j] = new Base();
-	// }
-	// }
-	// }
-	//
-	// /**
-	// * Affichage
-	// */
-	// for ( int j=0; j<bases.size(); j++ )
-	// System.out.print(String.format("|%1$3s",j+1));
-	// System.out.println("|");
-	// int total=0;
-	// for ( int i=0; i<listE.size(); i++ ) {
-	// for ( int j=0; j<bases.size(); j++ ) {
-	// if (collection[i][j].getCout()!=-1){
-	// total++;
-	// System.out.print("|"+String.format("%03d",collection[i][j].getCout()));
-	// } else {
-	// System.out.print("|   ");
-	// }
-	// }
-	// System.out.print("|  => "+total+"\n");
-	// total=0;
-	// }
-	// System.err.println(listE);
-	// System.err.print(collection[listE.size()-1][bases.size()-2].getCout()+";");
-	// listE.removeAll(collection[listE.size()-1][bases.size()-2].getEntreprises());
-	// System.err.println(listE);
-	// }
 
 	public static void main(String[] args) throws IOException {
 		// initialisation
+	    	long startTime;
 		Parser p = Parser.getInstance();
-		final List<Base> listB = p.parseListeBase("Liste Bases1.txt");
+		List<Base> listB = p.parseListeBase("Liste Bases1.txt");
 		final List<String> listE = p.parseListe("Liste Ent1.txt",
 				Parser.LISTE_ENTREPRISE);
+		
+		List<Base> baseClean = clean(listB,listE);
 
-		long startTime = System.currentTimeMillis();
+		startTime = System.nanoTime();
 		recursive2(listB, listE, new MyCollection());
-		long calculTime = System.currentTimeMillis() - startTime;
-		System.err.print("temp de calcul " + calculTime + "ms | ");
-		System.err.println(" "+Util.affichageBases(myMinCollection));
-//		int minimum = Util.coutTotal(listB);
-//
-//		startTime = System.currentTimeMillis();
-//
-//		for (MyCollection item : MonProjet.myCollection2)
-//			if ((item.getCoutMin() != 0) && (item.nbEntreprisesRestantes(listE) == 0))
-//				minimum = (minimum > item.getCoutMin()) ? item.getCoutMin()
-//						: minimum;
-//
-//		calculTime = System.currentTimeMillis() - startTime;
-//		System.err.println("Temps d'affichage" + calculTime + " mini="+ minimum);
+		System.out.println("temp de calcul " + (System.nanoTime() - startTime)/1000l + "us");
+		Util.out(myMinCollection, listE, Util.ALGO_RECURS2);
 
+		
 		// variable de sortie
-
 		List<Base> resultat;
-		resultat = simpleAlgo(listB, listE);
+		
+		startTime = System.nanoTime();
+		resultat = simpleAlgo(baseClean, listE);
+		System.out.println("temp de calcul " + (System.nanoTime() - startTime)/1000l + "us");
 		Util.out(resultat, listE, Util.ALGO_1);
-		//
-		//
-		// System.out.println("temps de calcul pour algo 1: "+((endTime-startTime))+"ms");
-		//
-		// startTime = System.currentTimeMillis();
-		resultat = simpleAlgo2(listB, listE);
-		// endTime = System.currentTimeMillis();
-		//
-		// System.out.println("temps de calcul pour algo 2: "+((endTime-startTime))+"ms");
+		
+		
+		startTime = System.nanoTime();
+		resultat = simpleAlgo2(baseClean, listE);
+		System.out.println("temp de calcul " + (System.nanoTime() - startTime)/1000l + "us");
 		Util.out(resultat, listE, Util.ALGO_2);
 
-		// complexAlgo(listB , listE);
-		// int resultat1 = Util.coutTotal(minBase);
-		// System.err.println("resultat="+resultat1+" pour la base "+Util.affichageBases(minBase));
 	}
 
 }

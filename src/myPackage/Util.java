@@ -80,6 +80,6 @@ public class Util {
 	}
 	
 	public static void out(Collection<Base> list, List<String> entreprises, String type) {
-		System.err.println(type+" n°"+(++NB_ALGO)+":("+list.size()+" éléments) "+affichageBases(list)+" -> cout,"+coutTotal(list)+"; nbEntreprisesRestantes,"+nbEntreprisesRestantes(list, entreprises));
+		System.err.println(type+" n°"+(++NB_ALGO)+":("+list.size()+" éléments) "+affichageBases(list)+" -> cout:"+coutTotal(list));
 	}
 }
