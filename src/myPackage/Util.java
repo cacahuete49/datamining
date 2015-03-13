@@ -1,6 +1,7 @@
 package myPackage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,20 +11,21 @@ public class Util {
 	public static final String ALGO_2 = "algo2";
 	public static final String ALGO_RECURS = "algo_recursive";
 	public static final String ALGO_COMPLEX = "algo_complex";
+	public static final String ALGO_RECURS2 = "algo_recursive2";
 	
 	public static int NB_ALGO=0;
 	
-	public static int coutTotal(List<Base> list) {
+	public static int coutTotal(Collection<Base> list) {
 		int resultat = 0;
 		for ( Base b : list)
 			resultat += b.getCout();
 		return resultat;
 	}
 	
-	public static int nbEntreprisesRestantes(List<Base> bases , List<String> entreprises) {
+	public static int nbEntreprisesRestantes(Collection<Base> list , List<String> entreprises) {
 		List <String> tmp = new ArrayList<String>(entreprises);
 		
-		for ( Base b : bases ) {
+		for ( Base b : list ) {
 			tmp.removeAll(b.getEntreprises());
 		}
 		return tmp.size();
@@ -51,10 +53,11 @@ public class Util {
 		return min;
 	}
 	
-	public static String affichageBases(List<Base> list) {
+	public static String affichageBases(Collection<Base> list) {
 		String resultat= " ";
+		if (list==null) return resultat;
 		for (Base b : list)
-			resultat += b.getCout()+";";
+			resultat += b.getNum()+";";
 		return resultat.substring(0, resultat.length()-1);		
 	}
 	
@@ -76,7 +79,7 @@ public class Util {
 		return newList;
 	}
 	
-	public static void out(List<Base> list, List<String> entreprises, String type) {
+	public static void out(Collection<Base> list, List<String> entreprises, String type) {
 		System.err.println(type+" n°"+(++NB_ALGO)+":("+list.size()+" éléments) "+affichageBases(list)+" -> cout,"+coutTotal(list)+"; nbEntreprisesRestantes,"+nbEntreprisesRestantes(list, entreprises));
 	}
 }

@@ -7,16 +7,20 @@ public class Base implements Comparable<Object>{
 	
 	private int cout;
 	
+	private final int num;
+	
 	private List<String> entreprises;
 	
-	public Base(){
+	public Base(final int num){
 		this.setCout(-1);
 		this.setEntreprises(new ArrayList<String>());
+		this.num=num;
 	}
 	
-	public Base(int cout , List<String> list){
+	public Base(int cout, final int num , List<String> list){
 		this.setCout(cout);
 		this.setEntreprises(list);
+		this.num=num;
 	}
 
 	public List<String> getEntreprises() {
@@ -42,6 +46,10 @@ public class Base implements Comparable<Object>{
 			return 0;
 		else
 			return 1;
+	}
+
+	public int getNum() {
+		return num;
 	}
 
 }

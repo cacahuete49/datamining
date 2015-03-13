@@ -5,7 +5,6 @@ package myPackage;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,14 +28,29 @@ public class Parser {
 		
 		return instance;
 	}
+	/**
+	 * Avec un nom de fichier valorise une base
+	 * 
+	 * @param nameFile
+	 * @return base
+	 * @throws IOException
+	 */
 	
 	public Base parseBase(String nameFile) throws IOException{
 		String chemin = System.getProperty("user.dir");
 		Path file = FileSystems.getDefault().getPath(chemin + "/Data/Bases/"+nameFile);
 		List<String> contenu = Files.readAllLines(file, StandardCharsets.UTF_8);
-		Base base = new Base( Integer.parseInt(contenu.get(0)),contenu.subList(2,contenu.size()));
+		Base base = new Base( Integer.parseInt(contenu.get(0)),Integer.parseInt(nameFile.replaceAll("\\D+","")),contenu.subList(2,contenu.size()));
 		return base;
 	}
+	
+	/**
+	 * A partir d'un nom de fichier return une liste d'entreprise
+	 * @param nameFile
+	 * @param type
+	 * @return
+	 * @throws IOException
+	 */
 	
 	public  List<String> parseListe( String nameFile , String type ) throws IOException {
 		String chemin = System.getProperty("user.dir");
@@ -45,6 +59,12 @@ public class Parser {
 		return contenu.subList(1, contenu.size());
 	}
 	
+	/**
+	 * Génère la liste des bases
+	 * @param nameFile
+	 * @return
+	 * @throws IOException
+	 */
 	public  List<Base> parseListeBase( String nameFile) throws IOException {
 //		Lecture liste base
 		String chemin = System.getProperty("user.dir");

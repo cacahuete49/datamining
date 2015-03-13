@@ -19,7 +19,7 @@ public class Arbre implements Comparable<Object>{
 	private List<Arbre> arbres;
 	
 	public Arbre() {
-		this.base=new Base(0, new ArrayList<String>() );
+		this.base=new Base(0, 0, new ArrayList<String>() );
 		this.arbres = new ArrayList<Arbre>();
 	}
 	
