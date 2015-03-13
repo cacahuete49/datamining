@@ -134,6 +134,7 @@ public class MonProjet {
 	}
 
 	public static MyCollection myMinCollection;
+	
 	public static void recursive2(List<Base> listB, List<String> listE,
 			MyCollection mCollection) {
 		// si ma liste entreprise est vide
