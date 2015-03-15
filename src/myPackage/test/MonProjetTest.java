@@ -1,10 +1,9 @@
 package myPackage.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 import myPackage.Base;
 import myPackage.MonProjet;
@@ -69,41 +68,16 @@ public class MonProjetTest {
 	}
 	
 	@Test
-	public void recursiveTest() {
-		// référence fvers mes variables static
-		int index = MonProjet.index;
-		List<MyCollection> myCollection2 =  MonProjet.myCollection2;
-		
-		// init des listes
-		List<Base> listB = buildListe();
-		List<String> entreprises = buildEntreprises();
-		
-		// exec
-		MonProjet.recursive(listB, entreprises);
+	public void simpleAlgo3Test(){
 
-		//affichage de mycollection
-		for ( ConcurrentSkipListSet<Base> item : myCollection2) {
-			Util.out(item, entreprises, Util.ALGO_RECURS);
-		}
-		
-		// calcul du moins couteux
-		int minimum = Util.coutTotal(listB);
-		for ( MyCollection item : myCollection2) {
-			if ( (item.getCoutMin() != 0) && (item.nbEntreprisesRestantes(entreprises)==0) ){
-				minimum = (minimum > item.getCoutMin()) ? item.getCoutMin() : minimum;
-			}
-		}
-		
-		// test
-		assertEquals(minimum,6);
-			
+	    // init des listes
+	    List<Base> listB = buildListe();
+	    List<String> entreprises = buildEntreprises();
+	    Util.maxEfficiency(listB, entreprises, entreprises.get(0) );
 	}
 	
 	@Test
 	public void recursive2() {
-		// référence vers mes variables static
-		int index = MonProjet.index;
-		
 		// init des listes
 		List<Base> listB = buildListe();
 		List<String> entreprises = buildEntreprises();
@@ -112,11 +86,8 @@ public class MonProjetTest {
 		MonProjet.recursive2(listB, entreprises, mCollection );
 		
 		//affichage de mycollection
-//		for ( ConcurrentSkipListSet<Base> item : myCollection2) {
-			Util.out(MonProjet.myMinCollection, entreprises, Util.ALGO_RECURS2);
-//		}
-		
-		
+		Util.out(MonProjet.myMinCollection, entreprises, Util.ALGO_RECURS2);
+	
 		// test
 		assertEquals(MonProjet.myMinCollection.getCoutMin(),6);
 	}
