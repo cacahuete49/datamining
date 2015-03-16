@@ -1,6 +1,7 @@
 package myPackage;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -139,15 +140,21 @@ public class MonProjet {
 		List<List<String>> listE = new ArrayList<List<String>>();
 		List<Base> baseClean = null;
 		for (int i=1;i<=3;i++) {
-      			listB.add(p.parseListeBase("Liste Bases"+i+".txt"));
-			listE.add(p.parseListe("Liste Ent"+i+".txt",Parser.LISTE_ENTREPRISE));
+      			try {
+			    listB.add(p.parseListeBase("Liste_Bases"+i+".txt"));
+			    listE.add(p.parseListe("Liste_Ent"+i+".txt",Parser.LISTE_ENTREPRISE));
+			} catch (URISyntaxException e) {
+			    System.out.println("erreur de lecture");
+			    e.printStackTrace();
+			}
+			
 		}
 		
 		for (int i=0;i<=2;i++) {
     		    for (int j=0;j<=2;j++){
     			baseClean = Util.clean(listB.get(i),listE.get(j));
     			
-    			System.out.println("Bases["+i+"] & Enterprises["+j+"]:");
+    			System.out.println("Bases["+(i+1)+"] & Enterprises["+(j+1)+"]:");
     			
     			long start = System.nanoTime();
     			recursive2(baseClean, listE.get(j), new MyCollection());
@@ -176,4 +183,5 @@ public class MonProjet {
     		}
     		System.err.println();
 	}
+	
 }
