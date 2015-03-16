@@ -71,6 +71,7 @@ public class Parser {
 		Path file = FileSystems.getDefault().getPath(chemin +LISTE_BASE+nameFile);
 		List<String> contenu = Files.readAllLines(file, StandardCharsets.UTF_8);
 		contenu.remove(0);
+		contenu.remove(contenu.size()-1);
 		
 //		Création et ajout des bases
 		List<Base> listeBase = new ArrayList<Base>();

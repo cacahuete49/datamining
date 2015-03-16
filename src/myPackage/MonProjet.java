@@ -138,29 +138,27 @@ public class MonProjet {
 		List<List<Base>> listB = new ArrayList<List<Base>>();
 		List<List<String>> listE = new ArrayList<List<String>>();
 		List<Base> baseClean = null;
-		
 		for (int i=1;i<=3;i++) {
-		    for (int j=1;j<=3;j++){
-            		listB.add(p.parseListeBase("Liste Bases"+i+".txt"));
-            		listE.add(p.parseListe("Liste Ent"+j+".txt",Parser.LISTE_ENTREPRISE));
-		    }
+      			listB.add(p.parseListeBase("Liste Bases"+i+".txt"));
+			listE.add(p.parseListe("Liste Ent"+i+".txt",Parser.LISTE_ENTREPRISE));
 		}
-
-		for (int i=1;i<=3;i++) {
-    		    for (int j=1;j<=3;j++){
+		
+		for (int i=0;i<=2;i++) {
+    		    for (int j=0;j<=2;j++){
     			baseClean = Util.clean(listB.get(i),listE.get(j));
-    
-    			recursive2(listB.get(i), listE.get(j), new MyCollection());
+    			long start = System.nanoTime();
+    			recursive2(baseClean, listE.get(j), new MyCollection());
+    			System.out.print("durée="+( (System.nanoTime()-start)/1000)+"µs\t");
     			System.out.println("Bases["+i+"] & Enterprises["+j+"]:");
     			Util.out(myMinCollection, listE.get(j), Util.ALGO_RECURS2);
-    			myMinCollection=null;
-    			
+
     			Util.out(simpleAlgo(baseClean, listE.get(j)), listE.get(j), Util.ALGO_1);
     
     			Util.out(simpleAlgo2(baseClean, listE.get(j)), listE.get(j), Util.ALGO_2);
     			
     			Util.out(simpleAlgo3(baseClean, listE.get(j)), listE.get(j), Util.ALGO_3);
     			
+    			myMinCollection=null;
     			System.out.println();
     		    }
     		}
