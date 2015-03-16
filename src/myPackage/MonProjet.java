@@ -146,17 +146,29 @@ public class MonProjet {
 		for (int i=0;i<=2;i++) {
     		    for (int j=0;j<=2;j++){
     			baseClean = Util.clean(listB.get(i),listE.get(j));
+    			
+    			System.out.println("Bases["+i+"] & Enterprises["+j+"]:");
+    			
     			long start = System.nanoTime();
     			recursive2(baseClean, listE.get(j), new MyCollection());
     			System.out.print("durée="+( (System.nanoTime()-start)/1000)+"µs\t");
-    			System.out.println("Bases["+i+"] & Enterprises["+j+"]:");
     			Util.out(myMinCollection, listE.get(j), Util.ALGO_RECURS2);
-
-    			Util.out(simpleAlgo(baseClean, listE.get(j)), listE.get(j), Util.ALGO_1);
-    
-    			Util.out(simpleAlgo2(baseClean, listE.get(j)), listE.get(j), Util.ALGO_2);
     			
-    			Util.out(simpleAlgo3(baseClean, listE.get(j)), listE.get(j), Util.ALGO_3);
+    			start = System.nanoTime();
+    			List<Base> b = simpleAlgo(baseClean, listE.get(j));
+    			System.out.print("durée="+( (System.nanoTime()-start)/1000)+"µs\t");
+    			Util.out(b , listE.get(j), Util.ALGO_1);
+    			
+    			
+    			start = System.nanoTime();
+    			b = simpleAlgo2(baseClean, listE.get(j));
+    			System.out.print("durée="+( (System.nanoTime()-start)/1000)+"µs\t"); 
+    			Util.out(b , listE.get(j), Util.ALGO_2);
+
+    			start = System.nanoTime();
+    			b = simpleAlgo3(baseClean, listE.get(j));
+    			System.out.print("durée="+( (System.nanoTime()-start)/1000)+"µs\t");
+    			Util.out(b, listE.get(j), Util.ALGO_3);
     			
     			myMinCollection=null;
     			System.out.println();
