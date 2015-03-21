@@ -130,6 +130,46 @@ public class MonProjet {
         			}
 		}
 	}
+	
+	public static void bruteforce(List<Base> listB, List<String> listE,MyCollection mCollection) {
+
+	if (listE.isEmpty()) {
+	    	// si ma collection est null je l'initialise
+	    	// sinon je test le cout pour mettre a jour ou non la collectionMin
+	    	if ( (myMinCollection==null) ) {
+	    	    myMinCollection= new MyCollection(mCollection);
+	    	} else {
+		    int minActual = (myMinCollection.getCoutMin()==0)?Integer.MAX_VALUE:myMinCollection.getCoutMin();
+		    int newValue = mCollection.getCoutMin();
+	    	    if (minActual>newValue){
+	    		myMinCollection= new MyCollection(mCollection);
+	    	    }
+	    	}
+
+	} else {
+		String entreprise = listE.get(0);
+		// Si ma collectionMin a déjà cette entreprise de maniere indirect
+		//pour le brute force si j'enleve cette condition alors le brute force fait de la merde
+		if (mCollection.isIn(entreprise))
+		    	// Je lance mon cas recursif sans prendre en compte cette entreprise
+				
+			bruteforce(listB, listE.subList(1, listE.size()), mCollection);
+		else
+		    	// Je parcours toutes mes bases
+    			for (Base base : listB) {
+            				// Si l'entreprise est dans la base
+            				if (base.getEntreprises().contains(entreprise)) {
+            					// j'ajoute la base dans ma collectionMin
+            					mCollection.add(base);
+            					// et je lance le cas récursif sur l'entreprise suivante
+            					bruteforce(listB, listE.subList(1, listE.size()),mCollection);
+            					// a la fin du traitement je retire l'élément
+            					mCollection.remove(base);
+            				}
+    			}
+	}
+}
+	
 
 	public static void main(String[] args) throws IOException {
 		// initialisation
@@ -169,6 +209,13 @@ public class MonProjet {
     			b = simpleAlgo3(baseClean, listE.get(j));
     			System.out.print("durée="+( (System.nanoTime()-start)/1000)+"µs\t");
     			Util.out(b, listE.get(j), Util.ALGO_3);
+    			
+    			myMinCollection=null;
+    			
+    			start = System.nanoTime();
+    			bruteforce(baseClean, listE.get(j), new MyCollection());
+    			System.out.print("durée="+( (System.nanoTime()-start)/1000)+"µs\t");
+    			Util.out(myMinCollection, listE.get(j), Util.BRUT_FORCE);
     			
     			myMinCollection=null;
     			System.out.println();

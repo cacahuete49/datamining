@@ -15,6 +15,7 @@ public class Util {
 	public static final String ALGO_RECURS = "algo_recursive";
 	public static final String ALGO_COMPLEX = "algo_complex";
 	public static final String ALGO_RECURS2 = "algo_recursive2";
+	public static final String BRUT_FORCE = "brute_force";
 	
 	public static int NB_ALGO=0;
 	
