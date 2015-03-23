@@ -81,28 +81,35 @@ public class Parser {
 	return contenu.subList(1, contenu.size());
     }
 	
-	/**
-	 * Génère la liste des bases
-	 * @param nameFile
-	 * @return
-	 * @throws IOException
-	 */
-	public  List<Base> parseListeBase( String nameFile) throws IOException {
-//		Lecture liste base
-		String chemin = System.getProperty("user.dir");
-		Path file = FileSystems.getDefault().getPath(chemin +LISTE_BASE+nameFile);
-		List<String> contenu = Files.readAllLines(file, StandardCharsets.UTF_8);
-		contenu.remove(0);
-//		contenu.remove(contenu.size()-1);
-		
-//		Création et ajout des bases
-		List<Base> listeBase = new ArrayList<Base>();
-		for (String s : contenu) {
-			listeBase.add(parseBase("Bases-"+s));
-		}
-		
-		return listeBase;
-	}	
+    /**
+     * Génère la liste des bases
+     * 
+     * @param nameFile
+     * @return
+     * @throws IOException
+     * @throws URISyntaxException
+     */
+    public List<Base> parseListeBase(String nameFile) throws IOException,
+	    URISyntaxException {
+	// Lecture liste base
+	BufferedReader reader = new BufferedReader(new InputStreamReader(
+		getClass().getResourceAsStream(LISTE_BASE + nameFile)));
+	List<String> contenu = new ArrayList<String>();
+	String line;
+	while ((line = reader.readLine()) != null) {
+	    contenu.add(line);
+	}
+	contenu.remove(0);
+	contenu.remove(contenu.size() - 1);
+
+	// Création et ajout des bases
+	List<Base> listeBase = new ArrayList<Base>();
+	for (String s : contenu) {
+	    listeBase.add(parseBase("Bases-" + s));
+	}
+
+	return listeBase;
+    }
 
     public void buffer() {
 
