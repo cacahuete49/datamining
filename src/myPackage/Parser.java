@@ -42,8 +42,6 @@ public class Parser {
 
     public Base parseBase(String nameFile) throws IOException,
 	    URISyntaxException {
-	// Path file = Paths.get(this.getClass().getResource("/Data/Bases/" +
-	// nameFile).toURI());
 	BufferedReader reader = new BufferedReader(new InputStreamReader(
 		getClass().getResourceAsStream(BASE + nameFile)));
 	List<String> contenu = new ArrayList<String>();
@@ -80,7 +78,7 @@ public class Parser {
 	}
 	return contenu.subList(1, contenu.size());
     }
-	
+
     /**
      * Génère la liste des bases
      * 
@@ -114,7 +112,6 @@ public class Parser {
     public void buffer() {
 
 	buffer("/Data/Bases/Bases-Base 1.txt");
-	// buffer("/Data/Scenarii/Liste_Bases/Liste_Bases1.txt");
     }
 
     public void buffer(String name) {
@@ -124,14 +121,13 @@ public class Parser {
 		    getClass().getResourceAsStream(name)));
 	    String line;
 	    while ((line = reader.readLine()) != null) {
-	    	System.out.println(line);
+		System.out.println(line);
 	    }
 	    System.out.println("Build :=> " + name);
-		}
-		catch (Exception e) {
-			System.out.println("FAILED :=> " + name);
+	} catch (Exception e) {
+	    System.out.println("FAILED :=> " + name);
 
-		}
+	}
 
     }
-}    
+}

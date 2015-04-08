@@ -104,6 +104,8 @@ public class Util {
 
 	/**
 	 * 
+	 * cout d'une base divisé le nombre de base cible qu'elle contient
+	 * 
 	 * @param listB
 	 * @param entreprises
 	 * @param target
