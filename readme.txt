@@ -1,3 +1,7 @@
+# Minage de donnée
+Implémentation de différents algorithmes de minage
+
+# Développeur
 Quentin Rabineau
 Alexandre Fremont
 
